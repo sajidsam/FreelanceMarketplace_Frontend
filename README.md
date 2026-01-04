@@ -1,16 +1,98 @@
-# React + Vite
+# Freelance Marketplace
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive **Freelance Marketplace** web application built with **React**, **Tailwind CSS**, and **React Router**. This platform allows users to browse, add, and manage freelance tasks in a clean and interactive interface.
 
-Currently, two official plugins are available:
+**Live Demo:** [Click here](https://freelance-marketplace-frontend-lemon.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Features
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+* **Home Page** – Welcomes users with branding and main navigation.
+* **Add Task** – Users can add new freelance tasks.
+* **Browse Tasks** – Explore available tasks posted by others.
+* **My Tasks** – Manage tasks created by the logged-in user.
+* **Responsive Navbar** – Navigation works across devices.
+* **Reusable Layout** – Navbar and Footer appear consistently across pages.
+* **Interactive UI** – Smooth hover effects and active link highlighting using `NavLink`.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+
+* **Frontend:** React, React Router v6
+* **Styling:** Tailwind CSS
+* **Icons:** react-icons
+* **Deployment:** Vercel
+
+---
+
+## Folder Structure
+
+```
+src/
+├── Components/
+│   ├── Navbar.jsx
+│   ├── Footer.jsx
+│   └── ...
+├── Pages/
+│   ├── Home.jsx
+│   ├── AddTask.jsx
+│   ├── BrowseTasks.jsx
+│   └── MyTasks.jsx
+├── Layout/
+│   └── Layout.jsx
+├── Routes/
+│   └── AllRoutes.jsx
+├── App.jsx
+└── main.jsx
+```
+
+---
+
+## Setup & Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone <your-repo-url>
+   cd freelance-marketplace
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Run the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:5173](http://localhost:5173) to view in your browser.
+
+---
+
+## Deployment
+
+This project is deployed on **Vercel**. Changes pushed to the main branch automatically update the live site.
+
+**Live Link:** [https://freelance-marketplace-frontend-lemon.vercel.app/](https://freelance-marketplace-frontend-lemon.vercel.app/)
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'Add some feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
+5. Open a Pull Request
+
+---
+
+## License
+
+This project is open-source and available under the MIT License.
