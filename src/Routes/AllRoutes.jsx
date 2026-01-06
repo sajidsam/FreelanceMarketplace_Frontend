@@ -5,6 +5,7 @@ import AddTask from '../Pages/AddTask';
 import BrowseTask from '../Pages/BrowseTask';
 import MyTask from '../Pages/MyTask';
 import Layout from '../Layout/Layout';
+import SignUp from '../Pages/SignIn';
 
 const AllRoutes = () => {
     return (
@@ -14,6 +15,9 @@ const AllRoutes = () => {
                 <Route path='/add-task' element={<AddTask />}></Route>
                 <Route path='/browse-tasks' element={<BrowseTask />}></Route>
                 <Route path='/my-tasks' element={<MyTask />}></Route>
+            </Route>
+            <Route>
+                <Route path='/sign-up' element={<SignUp/>}></Route>
             </Route>
         </Routes>
     );

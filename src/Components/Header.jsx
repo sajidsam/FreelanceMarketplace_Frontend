@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { FaBriefcase, FaUserCircle } from "react-icons/fa";
 
 const navClass = ({ isActive }) => {
@@ -12,13 +12,16 @@ const Navbar = () => {
     <nav className="w-full bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between">
 
       {/* Logo */}
-      <div className="flex items-center gap-2">
+      <Link to='/'>
+         <div className="flex items-center gap-2">
         <FaBriefcase className="text-emerald-500 text-2xl" />
         <span className="text-xl font-bold text-slate-900">
           Kaj<span className="text-emerald-500">Kori</span>
         </span>
       </div>
 
+      </Link>
+   
       {/* Navigation */}
       <ul className="flex gap-8 font-medium">
         <li>
@@ -52,9 +55,12 @@ const Navbar = () => {
           Login
         </button>
 
+        <Link to='/sign-up'>
         <button className="bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition">
           Sign Up
         </button>
+        </Link>
+        
 
         <FaUserCircle className="text-3xl text-slate-500 cursor-pointer hover:text-emerald-500 transition" />
       </div>
