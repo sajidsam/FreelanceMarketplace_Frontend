@@ -4,13 +4,13 @@ import Home from '../Pages/Home';
 import AddTask from '../Pages/AddTask';
 import BrowseTask from '../Pages/BrowseTask';
 import MyTask from '../Pages/MyTask';
-import Layout from '../Layout/Layout';
+import HomeLayout from '../Layout/HomeLayout';
 import SignUp from '../Pages/SignIn';
 
 const AllRoutes = () => {
     return (
         <Routes>
-            <Route path='/' element={<Layout />}>
+            <Route path='/' element={<HomeLayout />}>
                 <Route index path='/' element={<Home />}></Route>
                 <Route path='/add-task' element={<AddTask />}></Route>
                 <Route path='/browse-tasks' element={<BrowseTask />}></Route>

@@ -86,7 +86,7 @@ const Navbar = () => {
                   {({ isActive }) => (
                     <>
                       <Compass className="w-4 h-4" />
-                      Explore
+                      Home
                       {isActive && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-500 rounded-full" />}
                     </>
                   )}
@@ -97,7 +97,7 @@ const Navbar = () => {
                   {({ isActive }) => (
                     <>
                       <PlusCircle className="w-4 h-4" />
-                      Post a Task
+                      Add Task
                       {isActive && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-500 rounded-full" />}
                     </>
                   )}
