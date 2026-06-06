@@ -1,4 +1,4 @@
-# Freelance Marketplace
+# KajKori - Freelance Marketplace
 
 A modern, responsive **Freelance Marketplace** web application built with **React**, **Tailwind CSS**, and **React Router**. This platform allows users to browse, add, and manage freelance tasks in a clean and interactive interface.
 

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Search, Sparkles, Code, Palette, Megaphone, BarChart, ShieldCheck, Zap, Star, Users, CheckCircle, TrendingUp } from 'lucide-react';
+import { Search, Sparkles, Code, Palette, Megaphone, BarChart, ShieldCheck, Zap, Star, Users, CheckCircle, TrendingUp, ArrowRight, Clock, Briefcase, Award, Quote } from 'lucide-react';
 import Carousel from '../Components/Carousel';
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [featuredTasks, setFeaturedTasks] = useState([]);
   const navigate = useNavigate();
 
   const handleSearchSubmit = (e) => {
@@ -15,6 +16,18 @@ const Home = () => {
       navigate('/browse-tasks');
     }
   };
+
+  // Load and sort featured tasks by deadline (most recent first)
+  useEffect(() => {
+    const storedTasks = localStorage.getItem('kajkori_tasks');
+    if (storedTasks) {
+      const allTasks = JSON.parse(storedTasks);
+      const sorted = allTasks
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .slice(0, 6);
+      setFeaturedTasks(sorted);
+    }
+  }, []);
 
   const categories = [
     { id: 'dev', name: 'Software & Dev', count: '1,240 Tasks', icon: <Code className="w-6 h-6 text-emerald-500" />, bg: 'from-emerald-500/5 to-teal-500/5', border: 'hover:border-emerald-500/40' },
@@ -148,9 +161,103 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Carousel Section */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Carousel />
+      {/* Featured Tasks Section - Sorted by Deadline */}
+      <section className="py-16 bg-white border-y border-slate-100 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
+            <div>
+              <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+                Featured Tasks by Deadline
+              </h2>
+              <p className="text-slate-500 mt-2">
+                Discover the most urgent projects posted by our clients. Tasks sorted by deadline.
+              </p>
+            </div>
+            <Link
+              to="/browse-tasks"
+              className="mt-4 md:mt-0 inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition"
+            >
+              View all tasks &rarr;
+            </Link>
+          </div>
+
+          {featuredTasks.length === 0 ? (
+            <div className="bg-slate-50 rounded-2xl border border-slate-200/60 p-12 text-center">
+              <Briefcase className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+              <p className="text-slate-500">No tasks available yet</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featuredTasks.map((task) => (
+                <div
+                  key={task.id}
+                  className="bg-gradient-to-br from-white to-slate-50 rounded-2xl border border-slate-200/60 p-6 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300/50 flex flex-col"
+                >
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <span className="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-semibold">
+                      {task.category === 'dev' ? 'Software & Dev' :
+                       task.category === 'design' ? 'UI/UX & Design' :
+                       task.category === 'marketing' ? 'Digital Marketing' : 'Data & Analytics'}
+                    </span>
+                    <div className="flex items-center gap-0.5 text-amber-500">
+                      <Star className="w-4 h-4 fill-amber-500" />
+                      <span className="text-xs font-bold">{task.clientRating}</span>
+                    </div>
+                  </div>
+
+                  <h3 className="text-base font-bold text-slate-900 mb-3 line-clamp-2 leading-snug">
+                    {task.title}
+                  </h3>
+
+                  <p className="text-sm text-slate-600 mb-4 line-clamp-2">
+                    {task.description}
+                  </p>
+
+                  <div className="grid grid-cols-2 gap-3 p-3 bg-slate-100/50 rounded-lg mb-4 text-xs">
+                    <div>
+                      <span className="text-[10px] text-slate-500 font-semibold block uppercase">Budget</span>
+                      <span className="font-bold text-emerald-600">{task.budget}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-slate-500 font-semibold block uppercase">Duration</span>
+                      <span className="font-bold text-slate-700 flex items-center gap-1 mt-0.5">
+                        <Clock className="w-3 h-3" /> {task.duration}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="flex flex-wrap gap-1">
+                      {task.skills.slice(0, 3).map((skill) => (
+                        <span key={skill} className="px-2 py-1 rounded bg-slate-200/60 text-slate-700 text-[10px] font-medium">
+                          {skill}
+                        </span>
+                      ))}
+                      {task.skills.length > 3 && (
+                        <span className="px-2 py-1 rounded bg-slate-200/60 text-slate-600 text-[10px] font-medium">
+                          +{task.skills.length - 3} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-200 flex items-center justify-between gap-2 mt-auto">
+                    <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                      <Users className="w-3.5 h-3.5" />
+                      <span>{task.bids || 0} proposals</span>
+                    </div>
+                    <Link
+                      to="/browse-tasks"
+                      className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-all active:scale-95"
+                    >
+                      View
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
       {/* Trust & Features Section */}
@@ -227,6 +334,148 @@ const Home = () => {
           </div>
 
         </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-20 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+              How KajKori Works
+            </h2>
+            <p className="text-lg text-slate-600">
+              Get your projects done in 4 simple steps. Whether you're hiring or freelancing, our platform makes collaboration seamless.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4">
+            {[
+              {
+                step: 1,
+                title: "Post Your Task",
+                desc: "Describe your project, set budget & timeline. It takes just 5 minutes to get started.",
+                icon: <Briefcase className="w-6 h-6" />
+              },
+              {
+                step: 2,
+                title: "Receive Proposals",
+                desc: "Get bids from vetted professionals. Review portfolios, ratings & past client reviews.",
+                icon: <Users className="w-6 h-6" />
+              },
+              {
+                step: 3,
+                title: "Collaborate & Work",
+                desc: "Chat with freelancers, share files, and track progress in our unified dashboard.",
+                icon: <Zap className="w-6 h-6" />
+              },
+              {
+                step: 4,
+                title: "Release Payment",
+                desc: "Release funds safely via escrow after approving the completed work. Dispute resolution included.",
+                icon: <CheckCircle className="w-6 h-6" />
+              }
+            ].map((item) => (
+              <div key={item.step} className="relative">
+                <div className="bg-white rounded-2xl border border-slate-200/60 p-6 h-full flex flex-col text-center hover:shadow-lg transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4">
+                    {item.icon}
+                  </div>
+                  <div className="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold mb-3 mx-auto">
+                    Step {item.step}
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-slate-600">
+                    {item.desc}
+                  </p>
+                </div>
+                {item.step < 4 && (
+                  <div className="hidden md:flex absolute top-1/2 -right-3 items-center justify-center">
+                    <ArrowRight className="w-6 h-6 text-slate-300" />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Success Stories Section */}
+      <section className="py-20 bg-white relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+              Success Stories
+            </h2>
+            <p className="text-lg text-slate-600">
+              Real results from real people. See how KajKori users are achieving their goals.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                quote: "I posted my design project and got 12 proposals within hours. The quality was exceptional and I saved 40% compared to traditional agencies.",
+                author: "Sarah Chen",
+                role: "Startup Founder",
+                company: "TechVenture Labs",
+                rating: 5,
+                type: "Client"
+              },
+              {
+                quote: "KajKori changed my freelance career. I've earned $45,000 in 6 months working on diverse projects. The payment protection gives me peace of mind.",
+                author: "Marcus Johnson",
+                role: "Full-Stack Developer",
+                company: "Independent Freelancer",
+                rating: 5,
+                type: "Freelancer"
+              },
+              {
+                quote: "The escrow system is brilliant. I hired a React expert for my web app and knew my money was safe. The final product exceeded expectations.",
+                author: "Emma Wilson",
+                role: "Product Manager",
+                company: "Digital Solutions Inc",
+                rating: 5,
+                type: "Client"
+              }
+            ].map((testimonial, idx) => (
+              <div key={idx} className="bg-gradient-to-br from-slate-50 to-white rounded-2xl border border-slate-200/60 p-8 hover:shadow-lg transition-all duration-300 flex flex-col">
+                <div className="flex items-center gap-1 mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+
+                <div className="flex gap-2 mb-4">
+                  <Quote className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                </div>
+
+                <p className="text-slate-700 leading-relaxed mb-6 flex-grow">
+                  "{testimonial.quote}"
+                </p>
+
+                <div className="pt-6 border-t border-slate-200 flex items-center justify-between">
+                  <div>
+                    <p className="font-bold text-slate-900">{testimonial.author}</p>
+                    <p className="text-sm text-slate-600">{testimonial.role}</p>
+                    <p className="text-xs text-slate-500">{testimonial.company}</p>
+                  </div>
+                  <div className="text-center">
+                    <span className="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">
+                      {testimonial.type}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Carousel Section */}
+      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Carousel />
       </section>
 
     </div>
